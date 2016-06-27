@@ -41,13 +41,36 @@ const renderAll   = (state) => {
 //         DATABASE / STORE
 // =================================
 
-const store = {
+let store = {
   currentLocation: {latitude: 30.33, longitude: -127.33},
   likes: 3,
   items: [
     {text:'item 1'},
     {text:'item 2'}
   ]
+}
+
+const dispatch = (msg, state) => {
+  let newState = clone(state)
+  if (msg.type === GPS) {
+    newState.currentLocation = {latitude: msg.latitude, longitude: msg.longitude}
+  }
+
+  if (msg.type === LIKE) {
+    newState.likes += 1
+  }
+
+  if (msg.type === LIST_ADD) {
+    newState.items.push(msg.item)
+  }
+
+  if (msg.type === LIST_REMOVE) {
+    if (newState.items[msg.index]) {
+      newState.items.splice(msg.index, 1)
+    }
+  }
+
+  return newState
 }
 
 // =================================
@@ -57,28 +80,32 @@ const store = {
 setInterval( () => {
   const latitude  = (Math.random() * 90).toFixed(2)
   const longitude = (Math.random() * 180).toFixed(2)
-  const newGpsMsg = msgGPS(latitude, longitude)
+  const msg       = msgGPS(latitude, longitude)
   // Do something here to get the message into the store
+  store = dispatch(msg, store)
 }, 4 * 1000)
 
 setInterval( () => {
-  const newLikeMsg = msgLike()
+  const msg = msgLike()
   // Do something here to get the message into the store
-}, 15 * 1000)
+  store = dispatch(msg, store)
+}, 2 * 1000)
 
 let itemCount = 2
 setInterval( () => {
   itemCount += 1
-  const item = {test: `item ${itemCount}`}
-  const newAddMsg = msgAdd(item)
+  const item = {text: `item ${itemCount}`}
+  const msg  = msgAdd(item)
   // Do something here to get the message into the store
-}, 6 * 1000)
+  store = dispatch(msg, store)
+}, 2.5 * 1000)
 
 setInterval( () => {
   const index = Math.floor(Math.random() * 3)
-  const newRemoveMsg = msgRemove(index)
+  const msg   = msgRemove(index)
   // Do something here to get the message into the store
-}, 7 * 1000)
+  store = dispatch(msg, store)
+}, 3 * 1000)
 
 // =================================
 //           RENDER LOOP
@@ -90,4 +117,4 @@ setInterval(() => {
   renderCount += 1
   log(`\n======= FRAME ${renderCount} ========`)
   renderAll(store)
-}, 10 * 1000)
+}, 3 * 1000)
