@@ -9,7 +9,8 @@
     "exec": "docker-compose run --rm endpoint /bin/bash",
     "build": "docker-compose build",
     "dev": "docker-compose up --remove-orphans",
-    "remove-nones": "docker rmi $(docker images | grep '^<none>' | awk '{print $3}')"
+    "remove-nones": "docker rmi $(docker images | grep '^<none>' | awk '{print $3}')",
+    "docker-test":"docker-compose run --rm endpoint /bin/bash -c 'npm test'"
   },
   "keywords": [
     "docker",
