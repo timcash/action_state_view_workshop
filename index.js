@@ -31,11 +31,6 @@ const msgRemove = (index)               => ({type: LIST_REMOVE, index})
 const renderGPS   = (loc)   => log(`Location ${loc.latitude} N/S ${loc.longitude} E/W`)
 const renderLikes = (likes) => log(`You have ${likes} likes`)
 const renderItems = (items) => map(i => log(`- ${i.text}`), items)
-const renderAll   = (state) => {
-  renderGPS(store.currentLocation)
-  renderLikes(store.likes)
-  renderItems(store.items)
-}
 
 // =================================
 //         DATABASE / STORE
@@ -83,11 +78,7 @@ setInterval( () => {
 // =================================
 //           RENDER LOOP
 // =================================
-let renderCount = 0
-log(`\n======= FRAME ${renderCount} ========`)
-renderAll(store)
-setInterval(() => {
-  renderCount += 1
-  log(`\n======= FRAME ${renderCount} ========`)
-  renderAll(store)
-}, 3 * 1000)
+
+// Create some way to render all of the views
+// perhaps a loop using setInterval or
+// render on every change to the store
