@@ -46,19 +46,23 @@ let store = {
 }
 
 // =================================
-//      SIMULATE NEW MESSAGES
+//          SIMULATE CHANGES
 // =================================
 
 setInterval( () => {
   const latitude  = (Math.random() * 90).toFixed(2)
   const longitude = (Math.random() * 180).toFixed(2)
   const msg       = msgGPS(latitude, longitude)
+
   // Do something here to get the message into the store
+
 }, 4 * 1000)
 
 setInterval( () => {
   const msg = msgLike()
+
   // Do something here to get the message into the store
+
 }, 2 * 1000)
 
 let itemCount = 2
@@ -66,13 +70,17 @@ setInterval( () => {
   itemCount += 1
   const item = {text: `item ${itemCount}`}
   const msg  = msgAdd(item)
+
   // Do something here to get the message into the store
+
 }, 2.5 * 1000)
 
 setInterval( () => {
   const index = Math.floor(Math.random() * 3)
   const msg   = msgRemove(index)
+
   // Do something here to get the message into the store
+
 }, 3 * 1000)
 
 // =================================
@@ -82,3 +90,9 @@ setInterval( () => {
 // Create some way to render all of the views
 // perhaps a loop using setInterval or
 // render on every change to the store
+
+const renderAllTheThings = () => {
+  log("Hello World")
+}
+
+renderAllTheThings()
